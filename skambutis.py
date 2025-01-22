@@ -93,22 +93,22 @@ else:
 m.title('Mokyklos skambutis')
 Label(m, text="Nustatymai", font=("Arial", 12, "bold")).grid(row=0, columnspan=3)
 
-Label(m, text='Settings file:').grid(row=1)
+Label(m, text='Tvarkaraštis:').grid(row=1)
 entrSetDoc = Entry(m)
 entrSetDoc.insert(0, timeSettingsFile)
 entrSetDoc.grid(row=1, column=2)
 
-Label(m, text='First bell:').grid(row=2)
+Label(m, text='Pirmasis skambutis:').grid(row=2)
 firstBell = Entry(m)
 firstBell.insert(0, firstBellFile)
 firstBell.grid(row=2, column=2)
 
-Label(m, text='Second bell:').grid(row=3)
+Label(m, text='Antrasis skambutis:').grid(row=3)
 secondBell = Entry(m)
 secondBell.insert(0, secondBellFile)
 secondBell.grid(row=3, column=2)
 
-Label(m, text='Final bell:').grid(row=4)
+Label(m, text='Pabaigos skambutis:').grid(row=4)
 finalBell = Entry(m)
 finalBell.insert(0, finalBellFile)
 finalBell.grid(row=4, column=2)
