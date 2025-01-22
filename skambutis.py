@@ -127,6 +127,8 @@ Button(m, text="Testas", command=lambda: skambutis()).grid(row=8)
 activationButton = Button(m, text="Neaktyvuotas", fg="red", command=switchActivity)
 activationButton.grid(row=8, column=2)
 
+Label(m, text="Free license\nMikas Ališauskas")
+
 # Start periodic check
 periodic_check()
 
