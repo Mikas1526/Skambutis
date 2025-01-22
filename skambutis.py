@@ -67,7 +67,7 @@ times = []
 
 # Start of GUI
 m = Tk()
-m.iconbitmap("bell.ico")
+m.iconbitmap("bell.png")
 m.update_idletasks() # fit the screen contents
 m.title('Mokyklos skambutis')
 
