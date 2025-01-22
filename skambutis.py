@@ -67,6 +67,7 @@ def periodic_check():
     m.after(1000, periodic_check)  # Check every second
 
 def switchActivity():
+    """Turns on/off bell activity"""
     global isBellActive, activationButton
     isBellActive = not(isBellActive)
     if isBellActive:
@@ -85,6 +86,7 @@ times = []
 
 # Start of GUI
 m = Tk()
+m.resizable(0, 0)
 if os.path.exists("bell.png"):
     m.iconphoto(False, ImageTk.PhotoImage(file="bell.png"))
 else:
@@ -127,7 +129,7 @@ Button(m, text="Testas", command=lambda: skambutis()).grid(row=8)
 activationButton = Button(m, text="Neaktyvuotas", fg="red", command=switchActivity)
 activationButton.grid(row=8, column=2)
 
-Label(m, text="Free license\nMikas Ališauskas")
+Label(m, text="Free license\nMikas Ališauskas").grid(row=7, column=2)
 
 # Start periodic check
 periodic_check()
