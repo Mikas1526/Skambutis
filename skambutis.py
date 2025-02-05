@@ -1,7 +1,6 @@
 from datetime import datetime
 from tkinter import Button, Tk, Label, Entry, Scrollbar, Listbox, messagebox
-from playsound import playsound
-from PIL import ImageTk
+import pygame
 import os
 
 def setTimes(adress: str) -> list[dict]:
@@ -20,10 +19,12 @@ def setTimes(adress: str) -> list[dict]:
 
 def skambutis(bellType: int | None = 1):
     """Play sound based on bell type."""
+    global firstBellFile, secondBellFile, finalBellFiler
     match bellType:
-        case 1: playsound(firstBellFile)
-        case 2: playsound(secondBellFile)
-        case 3: playsound(finalBellFile)
+        case 1: pygame.mixer.music.load(firstBellFile)
+        case 2: pygame.mixer.music.load(secondBellFile)
+        case 3: pygame.mixer.music.load(finalBellFile)
+    pygame.mixer.music.play()
 
 def updateTimeBox():
     """Update the listbox with time schedule."""
@@ -77,20 +78,19 @@ def switchActivity():
 
 
 # Global variables
-isBellActive = False
+isBellActive = True
 timeSettingsFile = 'skambuciuLaikai.txt'
 firstBellFile = 'skambutis1.mp3'
 secondBellFile = 'skambutis2.mp3'
-finalBellFile = 'skambutis3.mp3'
+finalBellFile = 'skambutis2.mp3'
 times = []
+
+# Bell initialization
+pygame.mixer.init(buffer=4096)
 
 # Start of GUI
 m = Tk()
 m.resizable(0, 0)
-if os.path.exists("bell.png"):
-    m.iconphoto(False, ImageTk.PhotoImage(file="bell.png"))
-else:
-    messagebox.showwarning("Warning", "Icon file 'bell.png' not found!")
 
 m.title('Mokyklos skambutis')
 Label(m, text="Nustatymai", font=("Arial", 12, "bold")).grid(row=0, columnspan=3)
@@ -126,7 +126,7 @@ lstBoxTimes.grid(row=7, column=0)
 scrlTimeList.config(command=lstBoxTimes.yview)
 
 Button(m, text="Testas", command=lambda: skambutis()).grid(row=8)
-activationButton = Button(m, text="Neaktyvuotas", fg="red", command=switchActivity)
+activationButton = Button(m, text="Aktyvuotas", fg="green", command=switchActivity)
 activationButton.grid(row=8, column=2)
 
 Label(m, text="Free license\nMikas Ališauskas").grid(row=7, column=2)
