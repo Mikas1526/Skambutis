@@ -1,7 +1,10 @@
+# Free License of Mikas Alisauskas
+# mikas.alisauskas@gmail.com
+
 from datetime import datetime
 from tkinter import Button, Tk, Label, Entry, Scrollbar, Listbox, messagebox
 import pygame
-import os
+import json
 
 def setTimes(adress: str) -> list[dict]:
     """Load times from a text file."""
@@ -39,12 +42,26 @@ def updateTimeBox():
 
 def changeSettings():
     """Change bell settings."""
-    global timeSettingsFile, firstBellFile, secondBellFile, finalBellFile
+    global timeSettingsFile, firstBellFile, secondBellFile, finalBellFile, isBellActive
+    # getting information from fields
     timeSettingsFile = entrSetDoc.get()
     firstBellFile = firstBell.get()
     secondBellFile = secondBell.get()
     finalBellFile = finalBell.get()
+
     updateTimeBox()
+
+    # saving to settings file
+    json.dump(
+        {
+            'isBellActive': isBellActive,
+            'timeSettingsFile': timeSettingsFile,
+            'firstBellFile': firstBellFile,
+            'secondBellFile': secondBellFile,
+            'finalBellFile': finalBellFile,
+        },
+        open('settings.json', 'w')
+    )
 
 played_alarms = set()  # Track already played alarms
 
@@ -76,14 +93,31 @@ def switchActivity():
     else:
         activationButton.config(text="Neaktyvuotas", fg="red")
 
+def loadSettings():
+    """ Loads settings of files """
+    global isBellActive, timeSettingsFile, firstBellFile, secondBellFile, finalBellFile
+    
+    settingsFile = open('settings.json')
+    settings = json.load(settingsFile)
+    
+    isBellActive = not(bool(settings['isBellActive']))
+    timeSettingsFile = settings['timeSettingsFile']
+    firstBellFile = settings['firstBellFile']
+    secondBellFile = settings['secondBellFile']
+    finalBellFile = settings['finalBellFile']
+
+    settingsFile.close()
 
 # Global variables
-isBellActive = True
-timeSettingsFile = 'skambuciuLaikai.txt'
-firstBellFile = 'skambutis1.mp3'
-secondBellFile = 'skambutis2.mp3'
-finalBellFile = 'skambutis2.mp3'
+isBellActive = None
+timeSettingsFile = None
+firstBellFile = None
+secondBellFile = None
+finalBellFile = None
 times = []
+
+# loading settings
+loadSettings()
 
 # Bell initialization
 pygame.mixer.init(buffer=4096)
@@ -126,7 +160,8 @@ lstBoxTimes.grid(row=7, column=0)
 scrlTimeList.config(command=lstBoxTimes.yview)
 
 Button(m, text="Testas", command=lambda: skambutis()).grid(row=8)
-activationButton = Button(m, text="Aktyvuotas", fg="green", command=switchActivity)
+activationButton = Button(m, text="N/a", command=switchActivity)
+switchActivity()
 activationButton.grid(row=8, column=2)
 
 Label(m, text="Free license\nMikas Ališauskas").grid(row=7, column=2)

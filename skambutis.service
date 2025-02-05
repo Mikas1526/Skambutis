@@ -1,0 +1,14 @@
+[Unit]
+Description=My Tkinter Python Project
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/Skambutis/Desktop/Skambutis.sh
+User=Skambutis
+WorkingDirectory=/home/Skambutis/Desktop/
+Environment=DISPLAY=:0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
